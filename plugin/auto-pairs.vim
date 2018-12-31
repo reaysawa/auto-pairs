@@ -57,6 +57,10 @@ if !exists('g:AutoPairsShortcutJump')
   let g:AutoPairsShortcutJump = '<M-n>'
 endif
 
+if !exists('g:AutoPairsDoNotSkip')
+  let g:AutoPairsDoNotSkip = []
+endif
+
 " Fly mode will for closed pair to jump to closed pair instead of insert.
 " also support AutoPairsBackInsert to insert pairs where jumped.
 if !exists('g:AutoPairsFlyMode')
@@ -94,6 +98,13 @@ let s:Right = s:Go."\<RIGHT>"
 " Will auto generated {']' => '[', ..., '}' => '{'}in initialize.
 let g:AutoPairsClosedPairs = {}
 
+function! s:IsCharSkippable(char)
+  for char in g:AutoPairsDoNotSkip
+    if char == a:char
+      return 1
+    endif
+  endfor
+endfunction
 
 function! AutoPairsInsert(key)
   if !b:autopairs_enabled
@@ -125,7 +136,7 @@ function! AutoPairsInsert(key)
     let b:autopairs_saved_pair = [a:key, getpos('.')]
 
     " Skip the character if current character is the same as input
-    if current_char == a:key
+    if current_char == a:key && !s:IsCharSkippable(a:key)
       return s:Right
     end
 
@@ -144,7 +155,7 @@ function! AutoPairsInsert(key)
         else
           let next_char = matchstr(line, '\s*\zs.')
         end
-        if next_char == a:key
+        if next_char == a:key && !s:IsCharSkippable(a:key)
           return "\<ESC>e^a"
         endif
       endif
@@ -169,7 +180,7 @@ function! AutoPairsInsert(key)
   let open = a:key
   let close = b:AutoPairs[open]
 
-  if current_char == close && open == close
+  if current_char == close && open == close && !s:IsCharSkippable(current_char)
     return s:Right
   end
 
@@ -360,7 +371,6 @@ function! AutoPairsMap(key)
   let escaped_key = substitute(key, "'", "''", 'g')
   " use expr will cause search() doesn't work
   execute 'inoremap <buffer> <silent> '.key." <C-R>=AutoPairsInsert('".escaped_key."')<CR>"
-
 endfunction
 
 function! AutoPairsToggle()
