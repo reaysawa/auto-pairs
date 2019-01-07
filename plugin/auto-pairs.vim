@@ -78,6 +78,10 @@ if !exists('g:AutoPairsSmartQuotes')
   let g:AutoPairsSmartQuotes = 1
 endif
 
+if !exists('g:AutoPairsJump_SkipString')
+  let g:AutoPairsJump_SkipString = 0
+endif
+
 " 7.4.849 support <C-G>U to avoid breaking '.'
 " Issue talk: https://github.com/jiangmiao/auto-pairs/issues/3
 " Vim note: https://github.com/vim/vim/releases/tag/v7.4.849
@@ -290,7 +294,16 @@ function! AutoPairsDelete()
 endfunction
 
 function! AutoPairsJump()
-  call search('["\]'')}]','W')
+  let pos = searchpos('["\]'')}]','W')
+  if g:AutoPairsJump_SkipString
+    while pos != [0,0] && !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character\\|singlequote\\|escape\\|comment"'))
+      let pos = searchpos('["\]'')}]','W')
+    endwhile
+  endif
+  if pos != [0,0]
+    call cursor(pos[0], pos[1] + 1)
+  endif
+  return ''
 endfunction
 " string_chunk cannot use standalone
 let s:string_chunk = '\v%(\\\_.|[^\1]|[\r\n]){-}'
@@ -497,7 +510,7 @@ function! AutoPairsInit()
   end
 
   if g:AutoPairsShortcutJump != ''
-    execute 'inoremap <buffer> <silent> ' . g:AutoPairsShortcutJump. ' <ESC>:call AutoPairsJump()<CR>a'
+    execute 'inoremap <buffer> <silent> ' . g:AutoPairsShortcutJump. ' <C-R>=AutoPairsJump()<CR>'
     execute 'noremap <buffer> <silent> ' . g:AutoPairsShortcutJump. ' :call AutoPairsJump()<CR>'
   end
 
