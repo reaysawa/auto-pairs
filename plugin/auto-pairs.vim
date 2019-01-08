@@ -294,7 +294,7 @@ function! AutoPairsDelete()
 endfunction
 
 function! AutoPairsJump()
-  let pos = searchpos('["\]'')}]','W')
+  let pos = searchpos('["\]'')}]','cW')
   if g:AutoPairsJump_SkipString
     while pos != [0,0] && !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character\\|singlequote\\|escape\\|comment"'))
       let pos = searchpos('["\]'')}]','W')
