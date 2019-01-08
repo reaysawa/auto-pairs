@@ -226,6 +226,14 @@ Default: <M-p>
 The shortcut to toggle autopairs.
 
 
+                                                          *g:AutoPairsDoNotSkip*
+|g:AutoPairsDoNotSkip|                                              list(string)
+
+Default: []
+
+Prevent skipping over the characters in the list
+
+
 
                                                   *g:AutoPairsShortcutFastWrap*
 |g:AutoPairsShortcutFastWrap|                                            string
