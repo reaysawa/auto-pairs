@@ -247,6 +247,14 @@ Default: <M-n>
 Jump to the next closed pair.
 
 
+                                           *g:AutoPairsShortcutJump_SkipString*
+|g:AutoPairsShortcutJump_SkipString|                                        int
+
+Default: 0
+
+If characters in strings should be skipped when jumping to the next target.
+
+
                                                 *g:AutoPairsShortcutBackInsert*
 |g:AutoPairsShortcutBackInsert|                                          string
 
