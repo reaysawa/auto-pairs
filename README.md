@@ -1,3 +1,11 @@
+Differences between this and [jiangmiao/auto-pairs](https://github.com/jiangmiao/auto-pairs)
+=========
+Optional features are up for discussion. Parity features from modern editors (e.g. VSCode, Atom) are welcome as suggestions.
+Branched from [9086ce8](https://github.com/reaysawa/auto-pairs/commit/9086ce897a616d78baf69ddb07ad557c5ceb1d7c).
+
+- [dont-leave-insert](https://github.com/reaysawa/auto-pairs/tree/dont-leave-insert): Prevents leaving insert when using AutoPairsShortcutJump. Introduces `g:AutoPairsShortcutJump_SkipString`.
+- [prevent-character-skip](https://github.com/reaysawa/auto-pairs/tree/prevent-character-skip): Define a list of characters who shouldn't be skipped over.  Introduces `g:AutoPairsDoNotSkip`.
+
 Auto Pairs
 ==========
 Insert or delete brackets, parens, quotes in pair.
