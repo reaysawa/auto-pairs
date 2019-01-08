@@ -1,6 +1,10 @@
 Differences between this and [jiangmiao/auto-pairs](https://github.com/jiangmiao/auto-pairs)
 =========
-Optional features additions are up for discussion. Parity features from modern editors (e.g. VSCode, Atom) are welcome as suggestions but should also be opt-in.
+### Open an issue first to validate your suggestion!
+Optional features additions are up for discussion.
+
+Parity features from modern editors (e.g. VSCode, Atom) are welcome as suggestions but should also be opt-in.
+
 Branched from [9086ce8](https://github.com/reaysawa/auto-pairs/commit/9086ce897a616d78baf69ddb07ad557c5ceb1d7c).
 
 ### Merged
@@ -19,6 +23,7 @@ For inserting indent after newline insertion in tag-based contexts (HTML, XML, w
 https://github.com/shirohana/auto-pairs/tree/waiting-for-pl-accepted
 
 https://github.com/jiangmiao/auto-pairs/pull/172
+
 Recognizing leading whitespace in-between pairs and adding text symmetry when closing.
 
 
