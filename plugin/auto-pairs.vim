@@ -307,7 +307,9 @@ endfunction
 function! AutoPairsJump()
   let pos = searchpos('["\]'')}]','cW')
   if g:AutoPairsJump_SkipString
-    while pos != [0,0] && !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character\\|singlequote\\|escape\\|comment"'))
+    " Skip if the character is inside a string but isn't a string delimiter
+    " itself.
+    while pos != [0,0] && !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"')) && !empty(filter(map(synstack(pos[0], pos[1] + 1), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"'))
       let pos = searchpos('["\]'')}]','W')
     endwhile
   endif
