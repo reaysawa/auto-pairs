@@ -1,0 +1,12 @@
+# test xml like tags
+Given (buffer with a tag inside):
+  <div></div>
+
+Do (insert newline between tags):
+  :let g:AutoPairsNewline={ '<': '>' }\<CR>
+  5li\<CR>
+
+Expect (newline is inserted):
+  <div>
+
+  </div>
