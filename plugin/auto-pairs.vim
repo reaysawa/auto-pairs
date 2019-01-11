@@ -16,6 +16,10 @@ if !exists('g:AutoPairs')
   let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 end
 
+if !exists('g:AutoPairsNewline')
+  let g:AutoPairsNewline = deepcopy(g:AutoPairs)
+end
+
 if !exists('g:AutoPairsParens')
   let g:AutoPairsParens = {'(':')', '[':']', '{':'}'}
 end
@@ -414,7 +418,9 @@ function! AutoPairsReturn()
   let prev_char = pline[strlen(pline)-1]
   let cmd = ''
   let cur_char = line[col('.')-1]
-  if has_key(b:AutoPairs, prev_char) && b:AutoPairs[prev_char] == cur_char
+  let next_char = line[col('.')]
+
+  if has_key(b:AutoPairsNewline, prev_char) && b:AutoPairsNewline[prev_char] == cur_char
     if g:AutoPairsCenterLine && winline() * 3 >= winheight(0) * 2
       " Recenter before adding new line to avoid replacing line content
       let cmd = "zz"
@@ -468,6 +474,10 @@ function! AutoPairsInit()
 
   if !exists('b:AutoPairs')
     let b:AutoPairs = g:AutoPairs
+  end
+
+  if !exists('b:AutoPairsNewline')
+    let b:AutoPairsNewline = g:AutoPairsNewline
   end
 
   if !exists('b:AutoPairsMoveCharacter')
