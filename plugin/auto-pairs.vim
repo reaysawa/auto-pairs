@@ -18,7 +18,6 @@ end
 
 if !exists('g:AutoPairsNewline')
   let g:AutoPairsNewline = deepcopy(g:AutoPairs)
-  let g:AutoPairsNewline['>'] = '<'
 end
 
 if !exists('g:AutoPairsParens')
@@ -395,7 +394,6 @@ function! AutoPairsReturn()
   let cmd = ''
   let cur_char = line[col('.')-1]
   let next_char = line[col('.')]
-  if cur_char == '<' && next_char != '/' | return '' | endif
 
   if has_key(b:AutoPairsNewline, prev_char) && b:AutoPairsNewline[prev_char] == cur_char
     if g:AutoPairsCenterLine && winline() * 3 >= winheight(0) * 2
