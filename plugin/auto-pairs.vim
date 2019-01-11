@@ -413,14 +413,13 @@ function! AutoPairsReturn()
   if b:autopairs_enabled == 0
     return ''
   end
-  let line = getline('.')
-  let pline = getline(line('.')-1)
-  let prev_char = pline[strlen(pline)-1]
   let cmd = ''
-  let cur_char = line[col('.')-1]
-  let next_char = line[col('.')]
+  let line_n = line('.')
+  let prev_line = getline(line_n - 1)
+  let prev_char = prev_line[len(prev_line) - 1]
+  let remaining_line = getline(line_n)
 
-  if has_key(b:AutoPairsNewline, prev_char) && b:AutoPairsNewline[prev_char] == cur_char
+  if has_key(b:AutoPairsNewline, prev_char) && remaining_line =~? '^' . b:AutoPairsNewline[prev_char]
     if g:AutoPairsCenterLine && winline() * 3 >= winheight(0) * 2
       " Recenter before adding new line to avoid replacing line content
       let cmd = "zz"

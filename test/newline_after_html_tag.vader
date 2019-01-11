@@ -1,12 +1,27 @@
-# test xml like tags
+Before:
+  set noautoindent
+After:
+  let b:AutoPairsNewline = g:AutoPairsNewline
+
 Given (buffer with a tag inside):
   <div></div>
 
-Do (insert newline between tags):
-  :let g:AutoPairsNewline={ '<': '>' }\<CR>
+Do:
+  :let b:AutoPairsNewline={ '>': '</' }\<CR>
   5li\<CR>
 
 Expect (newline is inserted):
   <div>
 
   </div>
+
+Given (parenthesis newline - enabled by default):
+  fn()
+
+Do:
+  3li\<CR>
+
+Expect (newline is inserted):
+  fn(
+
+    )
