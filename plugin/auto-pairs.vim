@@ -418,29 +418,18 @@ function! AutoPairsReturn()
   let prev_line = getline(line_n - 1)
   let prev_char = prev_line[len(prev_line) - 1]
   let remaining_line = getline(line_n)
+  let g:db = [prev_line, prev_char, remaining_line]
 
-  if has_key(b:AutoPairsNewline, prev_char) && remaining_line =~? '^' . b:AutoPairsNewline[prev_char]
-    if g:AutoPairsCenterLine && winline() * 3 >= winheight(0) * 2
-      " Recenter before adding new line to avoid replacing line content
-      let cmd = "zz"
-    end
-
-    " If equalprg has been set, then avoid call =
-    " https://github.com/jiangmiao/auto-pairs/issues/24
-    if &equalprg != ''
-      return "\<ESC>".cmd."O"
-    endif
-
-    " conflict with javascript and coffee
-    " javascript   need   indent new line
-    " coffeescript forbid indent new line
-    if &filetype == 'coffeescript' || &filetype == 'coffee'
-      return "\<ESC>".cmd."k==o"
+  if has_key(b:AutoPairsNewline, prev_char) && remaining_line =~? '^\s*' . b:AutoPairsNewline[prev_char]
+    call append(line_n - 1, '')
+    norm! gqqk
+    if &expandtab
+      let cmd = repeat(" ", max([0, matchend(prev_line, '^\s*')]) + &shiftwidth)
     else
-      return "\<ESC>".cmd."=ko"
+      let cmd = repeat("\<Tab>", max([0, matchend(prev_line, '^\t*')]) + 1)
     endif
   end
-  return ''
+  return cmd
 endfunction
 
 function! AutoPairsSpace()
