@@ -8,16 +8,27 @@ Parity features from modern editors (e.g. VSCode, Atom) are welcome as suggestio
 Branched from [9086ce8](https://github.com/reaysawa/auto-pairs/commit/9086ce897a616d78baf69ddb07ad557c5ceb1d7c).
 
 ### Merged
-- [dont-leave-insert](https://github.com/reaysawa/auto-pairs/tree/dont-leave-insert): Prevents leaving insert when using AutoPairsShortcutJump. Introduces `g:AutoPairsShortcutJump_SkipString`.
-- [prevent-character-skip](https://github.com/reaysawa/auto-pairs/tree/prevent-character-skip): Define a list of characters who shouldn't be skipped over.  Introduces `g:AutoPairsDoNotSkip`.
+#### [dont-leave-insert](https://github.com/reaysawa/auto-pairs/tree/dont-leave-insert)
+
+Prevents leaving insert when using AutoPairsShortcutJump. Introduces `g:AutoPairsShortcutJump_SkipString`.
+
+#### [prevent-character-skip](https://github.com/reaysawa/auto-pairs/tree/prevent-character-skip)
+
+Define a list of characters who shouldn't be skipped over.  Introduces `g:AutoPairsDoNotSkip`. Will be reworked later to specify which characters to skip instead, defaulting to the initial list of characters from g:AutoPairs.
+
+#### [return-with-regex](https://github.com/reaysawa/auto-pairs/tree/return-with-regex)
+
+Extends automatic newline to regexes of characters matching said expression in the following line; has been changed so that it doesn't make Vim leave insert mode anymore. Controlled with `g:AutoPairsNewline`.
 
 ### Candidates
-#### Make it possible to insert an indented line between html tags
-https://github.com/jeromedalbert/auto-pairs/tree/better-auto-pairs
+#### ~Make it possible to insert an indented line between html tags~
+~https://github.com/jeromedalbert/auto-pairs/tree/better-auto-pairs~
 
-https://github.com/jiangmiao/auto-pairs/pull/141
+~https://github.com/jiangmiao/auto-pairs/pull/141~
 
-For inserting indent after newline insertion in tag-based contexts (HTML, XML, whatever).
+~For inserting indent after newline insertion in tag-based contexts (HTML, XML, whatever).~
+
+Incorporated as *return-with-regex****.
 
 #### Close empty pairs smartly
 https://github.com/shirohana/auto-pairs/tree/waiting-for-pl-accepted
@@ -26,6 +37,7 @@ https://github.com/jiangmiao/auto-pairs/pull/172
 
 Recognizing leading whitespace in-between pairs and adding text symmetry when closing.
 
+----------
 
 Auto Pairs
 ==========
