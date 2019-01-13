@@ -20,6 +20,10 @@ if !exists('g:AutoPairsNewline')
   let g:AutoPairsNewline = deepcopy(g:AutoPairs)
 end
 
+if !exists('g:AutoPairsNewlineIndentCommand')
+  let g:AutoPairsNewlineIndentCommand = {}
+end
+
 if !exists('g:AutoPairsParens')
   let g:AutoPairsParens = {'(':')', '[':']', '{':'}'}
 end
@@ -422,7 +426,7 @@ function! AutoPairsReturn()
 
   if has_key(b:AutoPairsNewline, prev_char) && remaining_line =~? '^\s*' . b:AutoPairsNewline[prev_char]
     call append(line_n - 1, '')
-    norm! ==k
+    execute 'norm! ' . get(b:AutoPairsNewlineIndentCommand, prev_char, '==k')
     if &expandtab
       let cmd = repeat(" ", max([0, matchend(prev_line, '^\s*')]) + &shiftwidth + 1)
     else
@@ -466,6 +470,10 @@ function! AutoPairsInit()
 
   if !exists('b:AutoPairsNewline')
     let b:AutoPairsNewline = g:AutoPairsNewline
+  end
+
+  if !exists('b:AutoPairsNewlineIndentCommand')
+    let b:AutoPairsNewlineIndentCommand = g:AutoPairsNewlineIndentCommand
   end
 
   if !exists('b:AutoPairsMoveCharacter')

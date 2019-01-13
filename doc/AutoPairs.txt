@@ -301,6 +301,60 @@ Executes:
     inoremap <buffer> <silent> <CR> <C-R>=AutoPairsReturn()<CR>
 
 
+                                                            *g:AutoPairsNewline*
+|g:AutoPairsNewline|                                                        dict
+
+Default: same as g:AutoPairs
+
+When g:AutoPairsMapCR is turned on, it defines which preceding characters get
+a newline inserted after them upon pressing enter.
+>
+        function() {|}
+<
+>
+        function() {
+          |
+        }
+<
+
+You can specify it on a buffer basis with b:AutoPairsNewline.
+
+>
+  For instance, on `ftplugin/html.vim`
+  let b:AutoPairsNewline=extend(g:AutoPairsNewline, { '>': '</' })
+<
+
+That will cover all existing pairs and plus the `</` following expression following
+a >. Then:
+
+>
+           |
+           |  matches ">"
+           |
+           ˇ
+    <strong>|</strong> <--- matches "</"
+<
+>
+    <strong>
+      |
+    </strong>
+<
+
+Indent is referred based on the previous line and tries to respect your
+*expandtab* option.
+
+                                               *g:AutoPairsNewlineIndentCommand*
+|g:AutoPairsNewlineIndentCommand|                                           dict
+
+Defines which command is used to indent the lines after g:AutoPairsNewline is
+triggered, starting from the last line. Note: It has to reposition the cursor
+back to the new line at the end.
+
+The default command is `==k`, which indents the line pushed below and moves
+the cursor back to the new line inserted.
+
+Default: {}
+
                                                         *g:AutoPairsCenterLine*
 |g:AutoPairsCenterLine|                                                     int
 
@@ -370,3 +424,6 @@ There are 3 ways:
 Because AutoPairs uses Meta(Alt) key as a shortcut, it conflicts with some
 Swedish character such as å. To fix the issue, you need remap or disable the
 related shortcut.
+
+===============================================================================
+  vim:tw=78:ts=2:sts=2:sw=2:ft=help:norl:
