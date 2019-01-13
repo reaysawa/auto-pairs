@@ -422,9 +422,9 @@ function! AutoPairsReturn()
 
   if has_key(b:AutoPairsNewline, prev_char) && remaining_line =~? '^\s*' . b:AutoPairsNewline[prev_char]
     call append(line_n - 1, '')
-    norm! gqqk
+    norm! ==k
     if &expandtab
-      let cmd = repeat(" ", max([0, matchend(prev_line, '^\s*')]) + &shiftwidth)
+      let cmd = repeat(" ", max([0, matchend(prev_line, '^\s*')]) + &shiftwidth + 1)
     else
       let cmd = repeat("\<Tab>", max([0, matchend(prev_line, '^\t*')]) + 1)
     endif
