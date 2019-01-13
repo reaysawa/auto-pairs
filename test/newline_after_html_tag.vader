@@ -48,31 +48,25 @@ Given (empty buffer):
   
 Do (insert with tabs - custom pair):
   :let b:AutoPairsNewline={ '>': '</' }\<CR>
+  :set tabstop=2\<CR>
   :set noexpandtab\<CR>
   i\<TAB><div></div>\<ESC>5hi\<CR>
 
-Then (should be tabs):
-  let lines = getline(1, line('$'))
-  "AssertEqual lines, [
-    "\ '	<div>',
-    "\ '		',
-    "\ '	</div>'
-    "\ ]
-  Assert match('^\t', lines[1]) > -1, "line is indented with tabs"
+Expect:
+  	<div>
+  		
+  	</div>
 
 
 Given (insert with tabs - enabled by default):
   fn()
 
 Do:
+  :set tabstop=2\<CR>
   :set noexpandtab\<CR>
   3li\<CR>
 
-Then (should be tabs):
-  let lines = getline(1, line('$'))
-  "AssertEqual lines, [
-  "\ 'fn(',
-  "\ '		',
-  "\ '	)'
-  "\ ]
-  Assert match('^\t', lines[1]) > -1, "line is indented with tabs"
+Expect:
+  fn(
+  	
+  	)
