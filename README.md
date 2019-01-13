@@ -7,7 +7,7 @@ Parity features from modern editors (e.g. VSCode, Atom) are welcome as suggestio
 
 Branched from [9086ce8](https://github.com/reaysawa/auto-pairs/commit/9086ce897a616d78baf69ddb07ad557c5ceb1d7c).
 
-### Merged
+### Merged, in order
 #### [dont-leave-insert](https://github.com/reaysawa/auto-pairs/tree/dont-leave-insert)
 
 Prevents leaving insert when using AutoPairsShortcutJump. Introduces `g:AutoPairsShortcutJump_SkipString`.
@@ -28,7 +28,7 @@ Extends automatic newline to regexes of characters matching said expression in t
 
 ~For inserting indent after newline insertion in tag-based contexts (HTML, XML, whatever).~
 
-Incorporated as *return-with-regex****.
+Incorporated as **return-with-regex**.
 
 #### Close empty pairs smartly
 https://github.com/shirohana/auto-pairs/tree/waiting-for-pl-accepted
