@@ -7,7 +7,7 @@ Parity features from modern editors (e.g. VSCode, Atom) are welcome as suggestio
 
 Branched from [9086ce8](https://github.com/reaysawa/auto-pairs/commit/9086ce897a616d78baf69ddb07ad557c5ceb1d7c).
 
-### Merged, in order
+### Merged - following the branched source as a base, discontinued
 #### [dont-leave-insert](https://github.com/reaysawa/auto-pairs/tree/dont-leave-insert)
 
 Prevents leaving insert when using AutoPairsShortcutJump. Introduces `g:AutoPairsShortcutJump_SkipString`.
