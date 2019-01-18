@@ -428,7 +428,7 @@ function! AutoPairsReturn()
     call append(line_n - 1, '')
     execute 'norm! ' . get(b:AutoPairsNewlineIndentCommand, prev_char, '==k')
     if &expandtab
-      let cmd = repeat(" ", max([0, matchend(prev_line, '^\s*')]) + &shiftwidth + 1)
+      let cmd = repeat(" ", max([0, matchend(prev_line, '^\s*')]) + &shiftwidth)
     else
       let cmd = repeat("\<Tab>", max([0, matchend(prev_line, '^\t*')]) + 1)
     endif

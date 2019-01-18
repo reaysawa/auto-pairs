@@ -20,7 +20,7 @@ Then:
   AssertEqual lines, [
     \ '<article>',
     \ '  <div>',
-    \ '     ',
+    \ '    ',
     \ '  </div>',
     \ '</article>'
     \ ]
@@ -38,7 +38,7 @@ Then:
   let lines = getline(1, line('$'))
   AssertEqual lines, [
     \ 'fn(',
-    \ '   ',
+    \ '  ',
     \ '  )'
     \ ]
 
