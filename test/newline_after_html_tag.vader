@@ -1,0 +1,72 @@
+Before:
+  set noautoindent
+  set shiftwidth=2
+After:
+  let b:AutoPairsNewline = g:AutoPairsNewline
+
+### TESTS WITH SPACES
+Given:
+  <article>
+    <div></div>
+  </article>
+
+Do (insert with spaces - custom pair):
+  :let b:AutoPairsNewline={ '>': '</' }\<CR>
+  :set expandtab\<CR>
+  j7li\<CR>
+
+Then:
+  let lines = getline(1, line('$'))
+  AssertEqual lines, [
+    \ '<article>',
+    \ '  <div>',
+    \ '    ',
+    \ '  </div>',
+    \ '</article>'
+    \ ]
+
+
+
+Given:
+  fn()
+
+Do (insert with spaces - enabled by default):
+  :set expandtab\<CR>
+  3li\<CR>
+
+Then:
+  let lines = getline(1, line('$'))
+  AssertEqual lines, [
+    \ 'fn(',
+    \ '  ',
+    \ '  )'
+    \ ]
+
+
+### TESTS WITH TABS
+Given (empty buffer):
+  
+Do (insert with tabs - custom pair):
+  :let b:AutoPairsNewline={ '>': '</' }\<CR>
+  :set tabstop=2\<CR>
+  :set noexpandtab\<CR>
+  i\<TAB><div></div>\<ESC>5hi\<CR>
+
+Expect:
+  	<div>
+  		
+  	</div>
+
+
+Given (insert with tabs - enabled by default):
+  fn()
+
+Do:
+  :set tabstop=2\<CR>
+  :set noexpandtab\<CR>
+  3li\<CR>
+
+Expect:
+  fn(
+  	
+  	)
