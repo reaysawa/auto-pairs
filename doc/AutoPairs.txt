@@ -347,8 +347,7 @@ Indent is referred based on the previous line and tries to respect your
 |g:AutoPairsNewlineIndentCommand|                                           dict
 
 Defines which command is used to indent the lines after g:AutoPairsNewline is
-triggered, starting from the last line. Note: It has to reposition the cursor
-back to the new line at the end.
+triggered, starting from the last line.
 
 The default command is `==k`, which indents the line pushed below and moves
 the cursor back to the new line inserted.
