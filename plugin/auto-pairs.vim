@@ -90,6 +90,10 @@ if !exists('g:AutoPairsSmartQuotes')
   let g:AutoPairsSmartQuotes = 1
 endif
 
+if !exists('g:AutoPairsJumpCharacters')
+  let g:AutoPairsJumpCharacters = values(g:AutoPairs)
+endif
+
 if !exists('g:AutoPairsJump_SkipString')
   let g:AutoPairsJump_SkipString = 0
 endif
@@ -313,7 +317,8 @@ function! AutoPairsDelete()
 endfunction
 
 function! AutoPairsJump()
-  let pos = searchpos('["\]'')}]','cW')
+  let jump_search_expr = join(g:AutoPairsJumpCharacters, '\|')
+  let pos = searchpos('\(' . jump_search_expr . '\)','ceW')
   if g:AutoPairsJump_SkipString
     " Skip if the character is inside a string but isn't a string delimiter
     " itself.

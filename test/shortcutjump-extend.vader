@@ -1,0 +1,16 @@
+Given (buffer with some text and comma):
+  (hello, hello, hello)
+Do (try to jump without extending the selection):
+  :call AutoPairsJump()\<CR>
+  :let g:cursor_position = getcurpos()[1:2]\<CR>
+Execute (cursor is after the parenthesis):
+  AssertEqual g:cursor_position, [1,21]
+
+Given (buffer with some text and comma):
+  (hello, hello, hello)
+Do (extend selection):
+  :let g:AutoPairsJumpCharacters = extend(values(g:AutoPairs), [','])\<CR>
+  :call AutoPairsJump()\<CR>
+  :let g:cursor_position = getcurpos()[1:2]\<CR>
+Execute (cursor should be after comma):
+  AssertEqual g:cursor_position, [1,8]
