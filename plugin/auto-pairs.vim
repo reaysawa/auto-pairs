@@ -425,8 +425,9 @@ function! AutoPairsReturn()
   let g:db = [prev_line, prev_char, remaining_line]
 
   if has_key(b:AutoPairsNewline, prev_char) && remaining_line =~? '^\s*' . b:AutoPairsNewline[prev_char]
+    execute 'norm! ' . get(b:AutoPairsNewlineIndentCommand, prev_char, '==')
     call append(line_n - 1, '')
-    execute 'norm! ' . get(b:AutoPairsNewlineIndentCommand, prev_char, '==k')
+    norm! k
     if &expandtab
       let cmd = repeat(" ", max([0, matchend(prev_line, '^\s*')]) + &shiftwidth)
     else
