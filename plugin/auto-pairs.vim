@@ -427,7 +427,6 @@ function! AutoPairsReturn()
   let prev_line = getline(line_n - 1)
   let prev_char = prev_line[len(prev_line) - 1]
   let remaining_line = getline(line_n)
-  let g:db = [prev_line, prev_char, remaining_line]
 
   if has_key(b:AutoPairsNewline, prev_char) && remaining_line =~? '^\s*' . b:AutoPairsNewline[prev_char]
     execute 'norm! ' . get(b:AutoPairsNewlineIndentCommand, prev_char, '==')
