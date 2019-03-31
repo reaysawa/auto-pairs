@@ -255,6 +255,18 @@ Default: <M-n>
 Jump to the next closed pair.
 
 
+                                                    *g:AutoPairsJumpCharacters*
+|g:AutoPairsJumpCharacters|                                        list(string)
+Default: same as g:AutoPairs' matching pairs.
+
+Characters (or regular expression) to skip using AutoPairsShortcutJump. For
+instance, if you also want to jump over commas, set it like this:
+
+>
+  let g:AutoPairsJumpCharacters = extend(values(g:AutoPairs), [','])
+<
+
+
                                            *g:AutoPairsShortcutJump_SkipString*
 |g:AutoPairsShortcutJump_SkipString|                                        int
 

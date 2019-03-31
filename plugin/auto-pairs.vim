@@ -90,6 +90,10 @@ if !exists('g:AutoPairsSmartQuotes')
   let g:AutoPairsSmartQuotes = 1
 endif
 
+if !exists('g:AutoPairsJumpCharacters')
+  let g:AutoPairsJumpCharacters = values(g:AutoPairs)
+endif
+
 if !exists('g:AutoPairsJump_SkipString')
   let g:AutoPairsJump_SkipString = 0
 endif
@@ -313,7 +317,8 @@ function! AutoPairsDelete()
 endfunction
 
 function! AutoPairsJump()
-  let pos = searchpos('["\]'')}]','cW')
+  let jump_search_expr = join(g:AutoPairsJumpCharacters, '\|')
+  let pos = searchpos('\(' . jump_search_expr . '\)','ceW')
   if g:AutoPairsJump_SkipString
     " Skip if the character is inside a string but isn't a string delimiter
     " itself.
@@ -422,7 +427,6 @@ function! AutoPairsReturn()
   let prev_line = getline(line_n - 1)
   let prev_char = prev_line[len(prev_line) - 1]
   let remaining_line = getline(line_n)
-  let g:db = [prev_line, prev_char, remaining_line]
 
   if has_key(b:AutoPairsNewline, prev_char) && remaining_line =~? '^\s*' . b:AutoPairsNewline[prev_char]
     execute 'norm! ' . get(b:AutoPairsNewlineIndentCommand, prev_char, '==')
