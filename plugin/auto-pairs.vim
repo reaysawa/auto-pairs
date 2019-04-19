@@ -319,10 +319,26 @@ endfunction
 function! AutoPairsJump()
   let jump_search_expr = join(g:AutoPairsJumpCharacters, '\|')
   let pos = searchpos('\(' . jump_search_expr . '\)','ceW')
+  let delimiter_inside_string = 0
+  let two_quotes = 0
   if g:AutoPairsJump_SkipString
-    " Skip if the character is inside a string but isn't a string delimiter
-    " itself.
-    while pos != [0,0] && !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"')) && !empty(filter(map(synstack(pos[0], pos[1] + 1), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"'))
+    while pos != [0,0]
+      let cur_line = getline('.')
+
+      " Skip if the character is inside a string but isn't a string delimiter
+      " itself.
+      let can_look_forward = pos[1] < len(cur_line)
+      if can_look_forward
+        let delimiter_inside_string = !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"')) && !empty(filter(map(synstack(pos[0], pos[1] + 1), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"'))
+        " two quotes together are detected as inside of the same string,
+        " but they are actually not... well they could be, but it's rarer
+        let two_quotes = cur_line[pos[1] - 1] == "'" && cur_line[pos[1]] == "'" || cur_line[pos[1] - 1] == '"' && cur_line[pos[1]] == '"'
+      endif
+
+      if !can_look_forward || two_quotes || !delimiter_inside_string
+        break
+      endif
+
       let pos = searchpos('["\]'')}]','W')
     endwhile
   endif
