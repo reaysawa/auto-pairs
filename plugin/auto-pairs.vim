@@ -318,24 +318,36 @@ endfunction
 
 function! AutoPairsJump()
   let jump_search_expr = join(g:AutoPairsJumpCharacters, '\|')
+  let currently_inside_string = !empty(filter(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character\\|singlequote\\|escape"'))
   let pos = searchpos('\(' . jump_search_expr . '\)','ceW')
-  let delimiter_inside_string = 0
-  let two_quotes = 0
-  if g:AutoPairsJump_SkipString
+  if !currently_inside_string && g:AutoPairsJump_SkipString
+    let inside_string_forward = 0
+    let inside_string_backwards = 0
+    let two_quotes = 0
+
+    " Skip if the character is inside a string but isn't a string delimiter
+    " itself.
     while pos != [0,0]
       let cur_line = getline('.')
+      let cur_char = strpart(cur_line, pos[1], 1)
 
-      " Skip if the character is inside a string but isn't a string delimiter
-      " itself.
       let can_look_forward = pos[1] < len(cur_line)
       if can_look_forward
-        let delimiter_inside_string = !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"')) && !empty(filter(map(synstack(pos[0], pos[1] + 1), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"'))
+        let inside_string_forward = !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"')) && !empty(filter(map(synstack(pos[0], pos[1] + 1), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"'))
+      endif
+
+      let can_look_backwards = pos[1] > 1
+      if can_look_backwards
         " two quotes together are detected as inside of the same string,
         " but they are actually not... well they could be, but it's rarer
         let two_quotes = cur_line[pos[1] - 1] == "'" && cur_line[pos[1]] == "'" || cur_line[pos[1] - 1] == '"' && cur_line[pos[1]] == '"'
+
+        let inside_string_backwards = !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"')) && !empty(filter(map(synstack(pos[0], pos[1] - 1), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"'))
       endif
 
-      if !can_look_forward || two_quotes || !delimiter_inside_string
+      if !can_look_forward
+      \ || two_quotes
+      \ || (!inside_string_forward && !inside_string_backwards)
         break
       endif
 

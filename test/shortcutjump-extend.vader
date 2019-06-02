@@ -14,3 +14,18 @@ Do (extend selection):
   :let g:cursor_position = getcurpos()[1:2]\<CR>
 Execute (cursor should be after comma):
   AssertEqual g:cursor_position, [1,8]
+
+Given (buffer with some delimiter inside a string):
+  start 'inside()' outside()
+Do (skips delimiter inside string, unless cursor inside string):
+  :set filetype=vim\<CR>
+  :let g:AutoPairsJump_SkipString = 1\<CR>
+  :call cursor(1, len("start 'in"))\<CR>
+  :call AutoPairsJump()\<CR>
+  :let g:cursor_position_inside = getcurpos()[1:2]\<CR>
+  :norm! 0\<CR>
+  :call AutoPairsJump()\<CR>
+  :let g:cursor_position_outside = getcurpos()[1:2]\<CR>
+Execute (cursor should be after the delimiter):
+  AssertEqual g:cursor_position_inside, [1, len("start 'inside()") + 1]
+  AssertEqual g:cursor_position_outside, [1, len("start 'inside()' outside(") + 1]
