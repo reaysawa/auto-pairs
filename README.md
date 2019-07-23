@@ -6,12 +6,12 @@ Differences between this and [jiangmiao/auto-pairs](https://github.com/jiangmiao
 - The jump function can now skip over an arbitrary set of characters (g:AutoPairsJumpCharacters). It has some additional logic to differentiate when jumping inside of a string (g:AutoPairsJump_SkipString), for example:
 ```
 "function_inside_string()"
-                         ^
-you can only jump over here if your cursor is inside of the string
+                        ^
+you can only jump over the parenthesis if your cursor is inside of the string
 ```
 - It has conditional skipping for some characters (g:AutoPairsDoNotSkip) or it can disable skipping entirely (g:AutoPairsDisableSkip).
-- It has some tests to ensure new changes don't break the current behaviour.
 - It is able to insert indented newlines after pressing `<CR>` at the end of the line (g:AutoPairsNewline).
+- It has some tests to ensure new changes don't break the current behaviour.
 
 ### Candidates
 #### Close empty pairs smartly
