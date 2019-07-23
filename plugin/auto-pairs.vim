@@ -69,6 +69,10 @@ if !exists('g:AutoPairsDoNotSkip')
   let g:AutoPairsDoNotSkip = []
 endif
 
+if !exists('g:AutoPairsDisableSkip')
+  let g:AutoPairsDisableSkip = 0
+endif
+
 " Fly mode will for closed pair to jump to closed pair instead of insert.
 " also support AutoPairsBackInsert to insert pairs where jumped.
 if !exists('g:AutoPairsFlyMode')
@@ -115,6 +119,9 @@ let s:Right = s:Go."\<RIGHT>"
 let g:AutoPairsClosedPairs = {}
 
 function! s:IsCharSkippable(char)
+  if g:AutoPairsDisableSkip
+    return 1
+  endif
   for char in g:AutoPairsDoNotSkip
     if char == a:char
       return 1

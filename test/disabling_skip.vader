@@ -1,0 +1,16 @@
+Before:
+  set noautoindent
+  set shiftwidth=2
+  let g:AutoPairsDisableSkip = 1
+
+### TESTS WITH SPACES
+Given (empty buffer):
+
+Do (inputs an unbalaced parenthesis and see if it has skipped over it):
+  i()
+
+Then (it should not have skipped over it):
+  let lines = getline(1, line('$'))
+  AssertEqual lines, [
+    \ '())',
+    \ ]
