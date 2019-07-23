@@ -1,37 +1,19 @@
 Differences between this and [jiangmiao/auto-pairs](https://github.com/jiangmiao/auto-pairs)
 =========
-### Open an issue first to validate your suggestion!
-Optional features additions are up for discussion.
-
-Parity features from modern editors (e.g. VSCode, Atom) are welcome as suggestions but should also be opt-in.
-
-Branched from [9086ce8](https://github.com/reaysawa/auto-pairs/commit/9086ce897a616d78baf69ddb07ad557c5ceb1d7c).
-
-### Merged - following the branched source as a base
-This idea was discontinued. New branches will branch from the forked master instead.
-
-#### [dont-leave-insert](https://github.com/reaysawa/auto-pairs/tree/dont-leave-insert)
-
-Prevents leaving insert when using AutoPairsShortcutJump. Introduces `g:AutoPairsShortcutJump_SkipString`.
-
-#### [prevent-character-skip](https://github.com/reaysawa/auto-pairs/tree/prevent-character-skip)
-
-Define a list of characters who shouldn't be skipped over.  Introduces `g:AutoPairsDoNotSkip`. Will be reworked later to specify which characters to skip instead, defaulting to the initial list of characters from g:AutoPairs.
-
-#### [return-with-regex](https://github.com/reaysawa/auto-pairs/tree/return-with-regex)
-
-Extends automatic newline to regexes of characters matching said expression in the following line; has been changed so that it doesn't make Vim leave insert mode anymore. Controlled with `g:AutoPairsNewline`.
+### Differences since branched
+*All of those features are currently opt-in.*
+- It uses <C-R> mappings in order to not have to leave insert mode when jumping between places.
+- The jump function can now skip over an arbitrary set of characters (g:AutoPairsJumpCharacters). It has some additional logic to differentiate when jumping inside of a string (g:AutoPairsJump_SkipString), for example:
+```
+"function_inside_string()"
+                         ^
+you can only jump over here if your cursor is inside of the string
+```
+- It has conditional skipping for some characters (g:AutoPairsDoNotSkip) or it can disable skipping entirely (g:AutoPairsDisableSkip).
+- It has some tests to ensure new changes don't break the current behaviour.
+- It is able to insert indented newlines after pressing `<CR>` at the end of the line (g:AutoPairsNewline).
 
 ### Candidates
-#### ~Make it possible to insert an indented line between html tags~
-~https://github.com/jeromedalbert/auto-pairs/tree/better-auto-pairs~
-
-~https://github.com/jiangmiao/auto-pairs/pull/141~
-
-~For inserting indent after newline insertion in tag-based contexts (HTML, XML, whatever).~
-
-Incorporated as **return-with-regex**.
-
 #### Close empty pairs smartly
 https://github.com/shirohana/auto-pairs/tree/waiting-for-pl-accepted
 

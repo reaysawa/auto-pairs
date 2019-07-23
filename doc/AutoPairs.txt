@@ -231,7 +231,16 @@ The shortcut to toggle autopairs.
 
 Default: []
 
-Prevent skipping over the characters in the list
+Prevent skipping over only the characters in the list.
+
+
+
+                                                          *g:AutoPairsDoNotSkip*
+|g:AutoPairsDoNotSkip|                                                      bool
+
+Default: 0 (false)
+
+Disable skipping entirely.
 
 
 
