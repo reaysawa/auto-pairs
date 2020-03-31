@@ -325,9 +325,9 @@ endfunction
 
 function! AutoPairsJump()
   let jump_search_expr = join(g:AutoPairsJumpCharacters, '\|')
-  let currently_inside_string = !empty(filter(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character\\|singlequote\\|escape"'))
+  let was_inside_string = !empty(filter(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character\\|singlequote\\|escape"'))
   let pos = searchpos('\(' . jump_search_expr . '\)','ceW')
-  if !currently_inside_string && g:AutoPairsJump_SkipString
+  if !was_inside_string && g:AutoPairsJump_SkipString
     let inside_string_forward = 0
     let inside_string_backwards = 0
     let two_quotes = 0
@@ -345,20 +345,14 @@ function! AutoPairsJump()
 
       let can_look_backwards = pos[1] > 1
       if can_look_backwards
-        " two quotes together are detected as inside of the same string,
-        " but they are actually not... well they could be, but it's rarer
-        let two_quotes = cur_line[pos[1] - 1] == "'" && cur_line[pos[1]] == "'" || cur_line[pos[1] - 1] == '"' && cur_line[pos[1]] == '"'
-
         let inside_string_backwards = !empty(filter(map(synstack(pos[0], pos[1]), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"')) && !empty(filter(map(synstack(pos[0], pos[1] - 1), 'synIDattr(v:val, "name")'), 'v:val =~? "string\\|character"'))
       endif
 
-      if !can_look_forward
-      \ || two_quotes
-      \ || (!inside_string_forward && !inside_string_backwards)
+      if !can_look_forward || (!inside_string_forward && !inside_string_backwards)
         break
       endif
 
-      let pos = searchpos('["\]'')}]','W')
+      let pos = searchpos('\(' . jump_search_expr . '\)','W')
     endwhile
   endif
   if pos != [0,0]
